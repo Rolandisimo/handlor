@@ -133,7 +133,7 @@ export function Equalizer() {
                 (
                     (options && options.listenerNode)
                     || window
-                ).requestAnimationFrame(callback).addEventListener(type, callback, options);
+                ).addEventListener(type, callback, options);
 
                 this.listeners[eventId] = {
                     type,
@@ -163,6 +163,12 @@ export function Equalizer() {
 
         console.log("Cleaned all", this.listeners)
     };
+
+    this.cleanItems = function(keys) {
+        for (const key of keys) {
+            this.cleanItem(key);
+        }
+    }
 
     this.cleanItem = function(key) {
         const item = this.listeners[key];
