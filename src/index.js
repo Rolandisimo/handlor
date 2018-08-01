@@ -1,64 +1,29 @@
-import { uniqueID } from "./utils";
-
-export function Equalizer() {
-    this.listeners = {
-        // //... [key: type]: callback
-        // /**
-        //     wont work like this
-        // needs to be an array of objects
-        // {
-        //     type: Enum;
-        //     callback?: () => void;
-        //     id?: number; // for intervan,timeout,animFrame clearing
-        //     options?: {
-        //     listenerNode?: document.body,
-        //     listenerOptions? {},
-        //     //... define other possible options
-        //     },
-        // },
-
-        // [
-        //     {
-        //         type: "click",
-        //     callback: () => {},
-        //     options: {
-        //         listenerNode: document.body,
-        //     },
-        //     },
-        //     {
-
-        //     }
-        //     ...
-        // ]
-
-        // */
-        // 1: {
-        //     type: "onmouse",
-        //     callback: () => {},
-        //     options: {
-        //         listenerNode: document.body,
-        //     },
-        // },
-        // 2: {
-        //     type: "interval",
-        //     id: 123,
-        // },
-        // 3: {
-        //     type: "requestAnimationFrame",
-        //     callback: () => {},
-        //     options: {
-        //         //... some options
-        //     },
-        // },
-        // 4: {
-        //     callback: () => {},
-        // },
-        // 5: {
-        //     type: "timeout",
-        //     id: 53
-        // },
-    };
-    this.registerHandles = function(data) {
+/**
+ * Author: Rolands Jegorovs
+ * Date: 01.08.18
+ * Description: Class for handling listeners, timeouts and frames globaly
+ */
+export class Equalizer {
+    constructor(props) {
+        super(props);
+        this.listeners = {
+            /**
+            * Contains listeners in the following form
+            * {
+            *      type: Enum;
+            *      callback?: () => void;
+            *      id?: number; // for intervan,timeout,animFrame clearing
+            *      options?: {
+            *         listenerNode?: document.body,
+            *         listenerOptions? { for addEventListener e.g.},
+            *         //...define other possible options
+            *      },
+            *  },
+            */
+        };
+    }
+    
+    registerHandles(data) {
         if (Array.isArray(data)) {
             // handle multiple collects
             const keys = [];
@@ -72,8 +37,8 @@ export function Equalizer() {
         }
     };
 
-    this.addEvent = function(data) {
-        let eventId = uniqueID(); // FIXME
+    addEvent(data) {
+        let eventId = Math.random() * 99999; // FIXME use a util func
 
         const {
             type,
@@ -81,9 +46,11 @@ export function Equalizer() {
             options,
         } = data;
 
-        // determine what it is
-        // add the listener to listeners list
-        // register the listene
+        /**
+         * Determine type of event to add
+         * Register the listeners and save
+         * them in the listeners object
+         */
 
         switch(type) {
             case "timeout": {
@@ -147,7 +114,7 @@ export function Equalizer() {
         return eventId;
     };
 
-    this.cleanAll = function() {
+    cleanAll() {
         /*
         * determine type
         * 1. eventListener can have options
@@ -164,13 +131,13 @@ export function Equalizer() {
         console.log("Cleaned all", this.listeners)
     };
 
-    this.cleanItems = function(keys) {
+    cleanItems(keys) {
         for (const key of keys) {
             this.cleanItem(key);
         }
     }
 
-    this.cleanItem = function(key) {
+    cleanItem(key) {
         const item = this.listeners[key];
         if (!item) {
             return new Error("No such listener key registered");
