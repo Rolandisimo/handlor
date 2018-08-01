@@ -1,0 +1,30 @@
+{
+  "name": "event-handler",
+  "version": "1.0.0",
+  "description": "Handles and stores eventsListeners, timeouts/intervals and animationFrames and stores in one place for convenient cancelling and unsubscribing of events",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rolandisimo/event-handler.git"
+  },
+  "keywords": [
+    "events",
+    "eventListeners",
+    "timeout",
+    "interval",
+    "requestAnimationFrame",
+    "handlers"
+  ],
+  "author": "Rolands Jegorovs <rolandjegorov@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rolandisimo/event-handler/issues"
+  },
+  "homepage": "https://github.com/Rolandisimo/event-handler#readme"
+}
