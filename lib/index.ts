@@ -21,33 +21,12 @@ export interface Listener {
 export type Listeners = { [key: number]: Listener }
 
 
-export type Data = Pick<Listener, "type" | "callback" | "options">
-// export type Data {
-//     type: Type,
-//     callback?: () => void,
-//     options?: {[key: string]: any};
-// }
-// constructor() {
-//     this.listeners = {
-//         /**
-//         * Contains listeners in the following form
-//         * {
-//         *      type: Enum;
-//         *      callback?: () => void;
-//         *      id?: number; // for intervan,timeout,animFrame clearing
-//         *      options?: {
-//         *         listenerNode?: document.body,
-//         *         listenerOptions? { for addEventListener e.g.},
-//         *         //...define other possible options
-//         *      },
-//         *  },
-//         */
-//     };
-// }
+export type Handle = Pick<Listener, "type" | "callback" | "options">
+
 export class Equalizer {
     listeners: Listeners = {};
     
-    registerHandles(data: Data | Data[]): number[] | void {
+    registerHandles(data: Handle | Handle[]): number[] | void {
         if (Array.isArray(data)) {
             // handle multiple collects
             const keys = [];
@@ -61,14 +40,14 @@ export class Equalizer {
         }
     };
 
-    addEvent(data: Data) {
+    addEvent(handle: Handle) {
         let eventId = Math.random() * 99999; // FIXME use a util func
 
         const {
             type,
             callback,
             options,
-        } = data;
+        } = handle;
 
         /**
          * Determine type of event to add
