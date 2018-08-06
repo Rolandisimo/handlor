@@ -2,12 +2,41 @@
   "name": "event-handler",
   "version": "1.0.0",
   "description": "Handles and stores eventsListeners, timeouts/intervals and animationFrames and stores in one place for convenient cancelling and unsubscribing of events",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "watch": "jest --watchAll",
+    "coverage": "jest --coverage",
+    "test": "jest --ci --runInBand"
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js",
+      "\\.(s?css)$": "identity-obj-proxy"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ],
+    "setupFiles": [
+      "./test/testSetup.ts"
+    ]
   },
   "repository": {
     "type": "git",
@@ -26,5 +55,11 @@
   "bugs": {
     "url": "https://github.com/Rolandisimo/event-handler/issues"
   },
-  "homepage": "https://github.com/Rolandisimo/event-handler#readme"
+  "homepage": "https://github.com/Rolandisimo/event-handler#readme",
+  "devDependencies": {
+    "jest": "^23.4.2",
+    "ts-jest": "^23.1.3",
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.1"
+  }
 }

@@ -3,26 +3,51 @@
  * Date: 01.08.18
  * Description: Class for handling listeners, timeouts and frames globaly
  */
+
+export enum Type {
+    Timeout = "timeout",
+    Interval = "interval",
+    RequestAnimationFrame = "requestAnimationFrame",
+    Default = "", // any other addEventListener
+}
+export interface Listener {
+    type: Type;
+    callback?: () => void;
+    id?: number; // for intervan,timeout,animFrame clearing
+    options?: {[key: string]: any}
+    listenerNode?: HTMLElement,
+    listenerOptions?: {[key: string]: any};
+}
+export type Listeners = { [key: number]: Listener }
+
+
+export type Data = Pick<Listener, "type" | "callback" | "options">
+// export type Data {
+//     type: Type,
+//     callback?: () => void,
+//     options?: {[key: string]: any};
+// }
+// constructor() {
+//     this.listeners = {
+//         /**
+//         * Contains listeners in the following form
+//         * {
+//         *      type: Enum;
+//         *      callback?: () => void;
+//         *      id?: number; // for intervan,timeout,animFrame clearing
+//         *      options?: {
+//         *         listenerNode?: document.body,
+//         *         listenerOptions? { for addEventListener e.g.},
+//         *         //...define other possible options
+//         *      },
+//         *  },
+//         */
+//     };
+// }
 export class Equalizer {
-    constructor() {
-        this.listeners = {
-            /**
-            * Contains listeners in the following form
-            * {
-            *      type: Enum;
-            *      callback?: () => void;
-            *      id?: number; // for intervan,timeout,animFrame clearing
-            *      options?: {
-            *         listenerNode?: document.body,
-            *         listenerOptions? { for addEventListener e.g.},
-            *         //...define other possible options
-            *      },
-            *  },
-            */
-        };
-    }
+    listeners: Listeners = {};
     
-    registerHandles(data) {
+    registerHandles(data: Data | Data[]): number[] | void {
         if (Array.isArray(data)) {
             // handle multiple collects
             const keys = [];
@@ -36,7 +61,7 @@ export class Equalizer {
         }
     };
 
-    addEvent(data) {
+    addEvent(data: Data) {
         let eventId = Math.random() * 99999; // FIXME use a util func
 
         const {
@@ -52,7 +77,7 @@ export class Equalizer {
          */
 
         switch(type) {
-            case "timeout": {
+            case Type.Timeout: {
                 const id = setTimeout(
                     callback,
                     (options && options.timeout) || 0,
@@ -60,13 +85,13 @@ export class Equalizer {
                 );
 
                 this.listeners[eventId] = {
-                    type: "timeout",
+                    type: Type.Timeout,
                     id,
                 }
 
                 break;
             }
-            case "interval": {
+            case Type.Interval: {
                 const id = setInterval(
                     callback,
                     (options && options.timeout) || 0,
@@ -74,20 +99,20 @@ export class Equalizer {
                 );
 
                 this.listeners[eventId] = {
-                    type: "interval",
+                    type: Type.Interval,
                     id,
                 }
 
                 break;
             }
-            case "requestAnimationFrame": {
+            case Type.RequestAnimationFrame: {
                 const id = (
                     (options && options.listenerNode)
                     || window
                 ).requestAnimationFrame(callback);
 
                 this.listeners[eventId] = {
-                    type: "requestAnimationFrame",
+                    type: Type.RequestAnimationFrame,
                     id,
                 }
 
@@ -122,21 +147,19 @@ export class Equalizer {
         * 4. requestAnimationFrame
          */
         for (let listener in this.listeners) {
-                if (this.listeners.hasOwnProperty(listener)) {
+            if (this.listeners.hasOwnProperty(listener)) {
                 this.cleanItem(listener);
             }
         }
-
-        console.log("Cleaned all", this.listeners)
     };
 
-    cleanItems(keys) {
+    cleanItems(keys: string[]) {
         for (const key of keys) {
             this.cleanItem(key);
         }
     }
 
-    cleanItem(key) {
+    cleanItem(key: string): Error | void {
         const item = this.listeners[key];
         if (!item) {
             return new Error("No such listener key registered");
@@ -150,15 +173,15 @@ export class Equalizer {
         } = item;
 
         switch(type) {
-            case "timeout": {
+            case Type.Timeout: {
                 clearTimeout(id);
                 break;
             }
-            case "interval": {
+            case Type.Interval: {
                 clearInterval(id);
                 break;
             }
-            case "requestAnimationFrame": {
+            case Type.RequestAnimationFrame: {
                 (
                     (options && options.listenerNode)
                     || window
