@@ -10,6 +10,7 @@ or
 
 ## Example of usage
 ```typescript
+import { Handlor } from "handlor"; 
 /* Create instance and make it globally */
 window.handlor = new Handlor();
 ```
