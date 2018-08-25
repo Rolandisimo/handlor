@@ -8,7 +8,6 @@ export enum Type {
     Timeout = "timeout",
     Interval = "interval",
     RequestAnimationFrame = "requestAnimationFrame",
-    Default = "", // any other addEventListener
 }
 
 /**
@@ -47,21 +46,29 @@ export interface TempListenerOptions {
 }
 
 /**
- * Listener Interface
+ * Stored Listener Interface
  */
-export interface Listener {
-    type: Type;
+export interface StoredListener {
+    type: Type | string;
     callback?: () => void;
     id?: number; // for intervan,timeout,animFrame clearing
     options?: TempListenerOptions;
     addEventListenerOptions?: boolean | AddEventListenerOptions;
 }
 
-export type Listeners = { [key: number]: Listener }
-export type Handle = Pick<Listener, "type" | "callback" | "options" | "addEventListenerOptions">
+export type StoredListeners = { [key: number]: StoredListener }
+/**
+ * Interface for adding a listener
+ */
+export interface Handle {
+    type: Type | string;
+    callback: () => void;
+    options?: TempListenerOptions;
+    addEventListenerOptions?: boolean | AddEventListenerOptions;
+}
 
 export class Equalizer {
-    listeners: Listeners = {};
+    listeners: StoredListeners = {};
     
     registerHandles(data: Handle | Handle[]): number[] | number {
         if (Array.isArray(data)) {
@@ -86,6 +93,8 @@ export class Equalizer {
             options,
             addEventListenerOptions,
         } = handle;
+
+        
 
         /**
          * Determine type of event to add
@@ -212,3 +221,15 @@ export class Equalizer {
         delete this.listeners[key];
     };
 }
+
+const equalizer = new Equalizer();
+
+equalizer.addEvent({
+    type: Type.RequestAnimationFrame,
+     /**
+     * Specify options such as timeout in ms for
+     * intervals and timeouts or any other args for
+     * the aforementioned listener types
+     */
+    callback: () => { /* whoosh */},
+})
