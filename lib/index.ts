@@ -84,7 +84,7 @@ export class Equalizer {
         }
     };
 
-    addEvent(handle: Handle) {
+    private addEvent(handle: Handle) {
         let eventId = Math.random() * 99999; // FIXME use a util func
 
         const {
@@ -221,15 +221,3 @@ export class Equalizer {
         delete this.listeners[key];
     };
 }
-
-const equalizer = new Equalizer();
-
-equalizer.addEvent({
-    type: Type.RequestAnimationFrame,
-     /**
-     * Specify options such as timeout in ms for
-     * intervals and timeouts or any other args for
-     * the aforementioned listener types
-     */
-    callback: () => { /* whoosh */},
-})

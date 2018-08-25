@@ -15,7 +15,7 @@ window.equalizer = new Equalizer();
 
 ### Interval/Timeout
 ```typescript
-equalizer.addEvent({
+equalizer.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -36,7 +36,7 @@ equalizer.addEvent({
 ### RequestAnimationFrame
 ```typescript
 // interval (same as timeout)
-equalizer.addEvent({
+equalizer.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -57,7 +57,7 @@ equalizer.addEvent({
 ### AddEventListener
 ```typescript
 // interval (same as timeout)
-equalizer.addEvent({
+equalizer.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -100,3 +100,11 @@ window.equalizer.cleanAll();
 
 ### Checking registered listeners
 `window.equalizer.listeners // { {}, {} }`
+
+## API
+| Method | Description | Input |
+| --- | --- | --- |
+| registerHandles | List all new or modified files | Single entry or an array of `{ type: string | Type, callback: () => {/** /} }, options?: {}, addEventListenerOptions?: {}` |
+| cleanAll | Removes all listeners from the instance storage | N/A |
+| cleanItem | Removes a specific item from the storage | id |
+| cleanItems | Removes an array of specific item from the storage | [id1, id2] |
