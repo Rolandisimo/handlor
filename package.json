@@ -1,5 +1,5 @@
 {
-  "name": "event-handler",
+  "name": "handlor",
   "version": "1.0.0",
   "description": "Handles and stores eventsListeners, timeouts/intervals and animationFrames and stores in one place for convenient cancelling and unsubscribing of events",
   "main": "dist/index.js",
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rolandisimo/event-handler.git"
+    "url": "git+https://github.com/Rolandisimo/handlor.git"
   },
   "keywords": [
     "events",
@@ -53,9 +53,9 @@
   "author": "Rolands Jegorovs <rolandjegorov@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Rolandisimo/event-handler/issues"
+    "url": "https://github.com/Rolandisimo/handlor/issues"
   },
-  "homepage": "https://github.com/Rolandisimo/event-handler#readme",
+  "homepage": "https://github.com/Rolandisimo/handlor#readme",
   "devDependencies": {
     "jest": "^23.4.2",
     "ts-jest": "^23.1.3",

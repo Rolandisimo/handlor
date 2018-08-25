@@ -1,21 +1,22 @@
-# event-handler
+# Handlor
 
-Handle events globally across your app and manage in one convenient place.
+Sir Handlor will assist you with 
+handling events globally across your app and manage in one convenient place.
 Eliminate code duplication, make maintaining easier.
 
-`npm i event-handler`
+`npm i handlor`
 or
-`yarn i event-handler`
+`yarn i handlor`
 
 ## Example of usage
 ```typescript
 /* Create instance and make it globally */
-window.equalizer = new Equalizer();
+window.handlor = new Handlor();
 ```
 
 ### Interval/Timeout
 ```typescript
-equalizer.registerHandles({
+handlor.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -36,7 +37,7 @@ equalizer.registerHandles({
 ### RequestAnimationFrame
 ```typescript
 // interval (same as timeout)
-equalizer.registerHandles({
+handlor.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -57,7 +58,7 @@ equalizer.registerHandles({
 ### AddEventListener
 ```typescript
 // interval (same as timeout)
-equalizer.registerHandles({
+handlor.registerHandles({
     /**
      * Use Type enum or simply default listener names
      * e.g. interval, requestAnimationFrame, etc 
@@ -83,23 +84,23 @@ equalizer.registerHandles({
 /**
  * addEvent returns id of the event which later can be used for clearing a specific item`
  */
-window.equalizer.cleanItem(id);
+window.handlor.cleanItem(id);
 
 /**
  * Similarly clean several items at once
  */
 
-window.equalizer.cleanItems([id1, id2, id3]);
+window.handlor.cleanItems([id1, id2, id3]);
 
 /**
 * Clean all items.
 * ⚠️ Careful as this will erase all listeners currently active in the app
 */
-window.equalizer.cleanAll();
+window.handlor.cleanAll();
 ```
 
 ### Checking registered listeners
-`window.equalizer.listeners // { {}, {} }`
+`window.handlor.listeners // { {}, {} }`
 
 ## API
 | Method | Description | Input |

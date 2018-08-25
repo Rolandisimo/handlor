@@ -67,7 +67,7 @@ export interface Handle {
     addEventListenerOptions?: boolean | AddEventListenerOptions;
 }
 
-export class Equalizer {
+export class Eventr {
     public readonly listeners: StoredListeners = {};
     
     public registerHandles(data: Handle | Handle[]): number[] | number {
