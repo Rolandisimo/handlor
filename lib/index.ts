@@ -39,7 +39,7 @@ export enum Type {
 // }
 
 // Until the above TODO is resolved
-export interface TempListenerOptions {
+interface TempListenerOptions {
     [key: string]: any;
     listenerNode?: HTMLElement | Window;
     timeoutInMs?: number;
@@ -48,7 +48,7 @@ export interface TempListenerOptions {
 /**
  * Stored Listener Interface
  */
-export interface StoredListener {
+interface StoredListener {
     type: Type | string;
     callback?: () => void;
     id?: number; // for intervan,timeout,animFrame clearing
@@ -56,7 +56,7 @@ export interface StoredListener {
     addEventListenerOptions?: boolean | AddEventListenerOptions;
 }
 
-export type StoredListeners = { [key: number]: StoredListener }
+type StoredListeners = { [key: number]: StoredListener }
 /**
  * Interface for adding a listener
  */
@@ -68,9 +68,9 @@ export interface Handle {
 }
 
 export class Equalizer {
-    listeners: StoredListeners = {};
+    public readonly listeners: StoredListeners = {};
     
-    registerHandles(data: Handle | Handle[]): number[] | number {
+    public registerHandles(data: Handle | Handle[]): number[] | number {
         if (Array.isArray(data)) {
             // handle multiple collects
             const keys = [];
@@ -160,7 +160,7 @@ export class Equalizer {
         return eventId;
     };
 
-    cleanAll() {
+    public cleanAll() {
         /*
         * determine type
         * 1. eventListener can have options
@@ -175,13 +175,13 @@ export class Equalizer {
         }
     };
 
-    cleanItems(keys: string[]) {
+    public cleanItems(keys: string[]) {
         for (const key of keys) {
             this.cleanItem(key);
         }
     }
 
-    cleanItem(key: string): Error | void {
+    public cleanItem(key: string): Error | void {
         const item = this.listeners[key];
         if (!item) {
             return new Error("No such listener key registered");
