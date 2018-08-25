@@ -10,23 +10,60 @@ export enum Type {
     RequestAnimationFrame = "requestAnimationFrame",
     Default = "", // any other addEventListener
 }
+
+/**
+ * TODO: Allow dynamic types based on listener type
+ * e.g. "interval" will give you only timeOutInMs for options
+ */
+// /**
+//  * For Timeouts and Intervals
+//  */
+// export interface WithTimeoutListenerOptions {
+//     [key: string]: any;
+//     timeoutInMs?: number;
+// }
+
+// /**
+//  * For requestAnimationFrames and addEventListeners
+//  */
+// export interface DefaultListenerOptions {
+//     [key: string]: any;
+//     listenerNode?: HTMLElement | Window;
+// }
+// /**
+//  * Typeguard to differentiate options type in a scope
+//  */
+// function isTimeoutOrInterval(
+//     options: WithTimeoutListenerOptions | DefaultListenerOptions
+// ): options is WithTimeoutListenerOptions {
+//     return options && options.timeoutInMs;
+// }
+
+// Until the above TODO is resolved
+export interface TempListenerOptions {
+    [key: string]: any;
+    listenerNode?: HTMLElement | Window;
+    timeoutInMs?: number;
+}
+
+/**
+ * Listener Interface
+ */
 export interface Listener {
     type: Type;
     callback?: () => void;
     id?: number; // for intervan,timeout,animFrame clearing
-    options?: {[key: string]: any}
-    listenerNode?: HTMLElement,
-    listenerOptions?: {[key: string]: any};
+    options?: TempListenerOptions;
+    addEventListenerOptions?: boolean | AddEventListenerOptions;
 }
+
 export type Listeners = { [key: number]: Listener }
-
-
-export type Handle = Pick<Listener, "type" | "callback" | "options">
+export type Handle = Pick<Listener, "type" | "callback" | "options" | "addEventListenerOptions">
 
 export class Equalizer {
     listeners: Listeners = {};
     
-    registerHandles(data: Handle | Handle[]): number[] | void {
+    registerHandles(data: Handle | Handle[]): number[] | number {
         if (Array.isArray(data)) {
             // handle multiple collects
             const keys = [];
@@ -36,7 +73,7 @@ export class Equalizer {
 
             return keys;
         } else {
-            this.addEvent(data);
+            return this.addEvent(data);
         }
     };
 
@@ -47,6 +84,7 @@ export class Equalizer {
             type,
             callback,
             options,
+            addEventListenerOptions,
         } = handle;
 
         /**
@@ -59,7 +97,7 @@ export class Equalizer {
             case Type.Timeout: {
                 const id = setTimeout(
                     callback,
-                    (options && options.timeout) || 0,
+                    (options && options.timeoutInMs) || 0,
                     ...(options && options.params ? options.params : []),
                 );
 
@@ -73,7 +111,7 @@ export class Equalizer {
             case Type.Interval: {
                 const id = setInterval(
                     callback,
-                    (options && options.timeout) || 0,
+                    (options && options.timeoutInMs) || 0,
                     ...(options && options.params ? options.params : []),
                 );
 
@@ -85,10 +123,7 @@ export class Equalizer {
                 break;
             }
             case Type.RequestAnimationFrame: {
-                const id = (
-                    (options && options.listenerNode)
-                    || window
-                ).requestAnimationFrame(callback);
+                const id = window.requestAnimationFrame(callback);
 
                 this.listeners[eventId] = {
                     type: Type.RequestAnimationFrame,
@@ -98,12 +133,11 @@ export class Equalizer {
                 break;
             }
             default: {
-                // for addEventListener
-                // TODO: Handle options 
+                // Handle all addEventListener cases
                 (
                     (options && options.listenerNode)
                     || window
-                ).addEventListener(type, callback, options);
+                ).addEventListener(type, callback, addEventListenerOptions);
 
                 this.listeners[eventId] = {
                     type,

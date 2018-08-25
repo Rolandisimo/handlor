@@ -33,6 +33,9 @@
       "skipLibCheck": true,
       "strictNullChecks": false,
       "suppressImplicitAnyIndexErrors": true,
+      "typeRoots": [
+          "node_modules/@types"
+      ]
     }
   }
   
