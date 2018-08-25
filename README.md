@@ -104,7 +104,7 @@ window.equalizer.cleanAll();
 ## API
 | Method | Description | Input |
 | --- | --- | --- |
-| registerHandles | List all new or modified files | Single entry or an array of `{ type: string | Type, callback: () => {/** /} }, options?: {}, addEventListenerOptions?: {}` |
+| registerHandles | List all new or modified files | Single entry or an array of objects |
 | cleanAll | Removes all listeners from the instance storage | N/A |
 | cleanItem | Removes a specific item from the storage | id |
 | cleanItems | Removes an array of specific item from the storage | [id1, id2] |
