@@ -1,6 +1,6 @@
 {
   "name": "handlor",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Handles and stores eventsListeners, timeouts/intervals and animationFrames and stores in one place for convenient cancelling and unsubscribing of events",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
