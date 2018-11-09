@@ -4,10 +4,17 @@ Sir Handlor will assist you with
 handling events globally across your app and manage in one convenient place.
 Eliminate code duplication, make maintaining easier.
 
-`npm i handlor` and `npm i --save-dev tslib`
-or
-`yarn add handlor` and `yarn add --dev tslib`
+N.B. This package has TS types and thus is dependent on `tslib`.
 
+```typescript
+npm i handlor
+npm i --save-dev tslib
+```
+or
+```typescript
+yarn add handlor
+yarn add --dev tslib
+```
 ## Example of usage
 ```typescript
 import { Handlor } from "handlor"; 
