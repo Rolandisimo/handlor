@@ -1,9 +1,6 @@
 /**
- * Author: Rolands Jegorovs
- * Date: 01.08.18
- * Description: Class for handling listeners, timeouts and frames globaly
+ * Enum for listener types
  */
-
 export enum Type {
     Timeout = "timeout",
     Interval = "interval",
@@ -67,21 +64,28 @@ export interface Handle {
     addEventListenerOptions?: boolean | AddEventListenerOptions;
 }
 
-export class Eventr {
+/**
+ * Main class to handle listeners
+ */
+export class Handlor {
     public readonly listeners: StoredListeners = {};
     
-    public registerHandles(data: Handle | Handle[]): number[] | number {
+    /**
+     * Registers listeners and returns their IDs
+     */
+    public registerHandles(data: Handle | Handle[]): number[] {
+        const keys = [];
+
         if (Array.isArray(data)) {
             // handle multiple collects
-            const keys = [];
             for (const handle of data) {
                 keys.push(this.addEvent(handle));
             }
-
-            return keys;
         } else {
-            return this.addEvent(data);
+            keys.push(this.addEvent(data));
         }
+
+        return keys;
     };
 
     private addEvent(handle: Handle) {

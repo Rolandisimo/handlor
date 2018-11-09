@@ -57,6 +57,7 @@
   },
   "homepage": "https://github.com/Rolandisimo/handlor#readme",
   "devDependencies": {
+    "@types/jest": "^23.3.9",
     "jest": "^23.5.0",
     "merge": ">=1.2.1",
     "ts-jest": "^23.1.4",
